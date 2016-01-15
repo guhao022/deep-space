@@ -1,16 +1,14 @@
 package main
 
 import (
-	"black-world/utils/log"
+	//"deep-space/utils/log"
 	"github.com/num5/env"
-	"net"
-	"os"
 )
 
 func main() {
 	initialize()
 
-	// 获取监听端口
+	/*// 获取监听端口
 	addr := os.Getenv("LISTEN_ADDR")
 	// 监听端口
 	listen, err := net.Listen("tcp", addr)
@@ -33,7 +31,7 @@ func main() {
 		log.Info(conn.RemoteAddr().String())
 
 		//go connection.NewConnection(conn)
-	}
+	}*/
 }
 
 func initialize() {

@@ -1,10 +1,9 @@
 package model
 
 import (
-	"black-world/DAL/mgo"
+	"deep-space/DAL/mgo"
 	"os"
 )
-
 
 var Mgo = &mgo.Exec{
 	Database: "black",

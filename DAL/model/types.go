@@ -40,6 +40,7 @@ type (
 		Water int           `bson:"water" json:"water"`       // 水
 		Fire  int           `bson:"fire" json:"fire"`         // 火
 		Earth int           `bson:"fire" json:"fire"`         // 土
+		Sort  int           `bson:"sort" json:"sort"` 				// 排序
 	}
 
 	// 角色技能
@@ -48,6 +49,7 @@ type (
 		Rid   bson.ObjectId `bson:"rid,omitempty" json:"rid"` // 角色ID
 		Sid   bson.ObjectId `bson:"sid,omitempty" json:"sid"` // 技能ID
 		Level int           `bson:"level" json:"level"`       // 技能等级
+		Sort  int           `bson:"sort" json:"sort"` 				// 排序
 	}
 )
 
@@ -58,15 +60,20 @@ type (
 		Id       bson.ObjectId `bson:"_id,omitempty" json:"id"`
 		Cid      bson.ObjectId `bson:"cid,omitempty" json:"cid"`   // 类型ID
 		Name     string        `bson:"name,omitempty" json:"name"` // 物品名称
+		Level	 int           `bson:"level" json:"level"`		   // 物品等级
 		Function string        `bson:"function" json:"function"`   // 物品功能
-		Price    int           `bson:"price" json:"price"`         // 物品卖价
+		Price    int           `bson:"price" json:"price"`         // 物品基本卖价
+		FallNum  int64         `bson:"fall_num" json:"fall_num"`   // 掉落次数
+		Abstract string        `bson:"abstract" json:"abstract"`   // 物品简介
 	}
 
 	// 类型
 	ItemCate struct {
 		Id    bson.ObjectId `bson:"_id,omitempty" json:"id"`
+		Pid   bson.ObjectId `bson:"pid,omitempty" json:"pid"`
 		Name  string        `bson:"name,omitempty" json:"name"`
-		Index int           `bson:"index,omitempty" json:"index"` // 索引
+		Sort  int           `bson:"sort" json:"sort"` 				// 排序
+		Abstract string     `bson:"abstract" json:"abstract"`   	// 简介
 	}
 )
 
