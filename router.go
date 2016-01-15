@@ -1,11 +1,15 @@
 package main
 
 import (
-	//"github.com/gorilla/mux"
+	"github.com/num5/web"
+	"deep-space/DLL/item"
+	"net/http"
 )
 
 func Router() {
-	//r := mux.NewRouter()
-	//r.HandleFunc("/", )
+	r := web.New()
+	r.SetTrac(true)
+	r.Get("/", item.NewItem)
 
+	http.Handle("/", r)
 }
