@@ -1,24 +1,29 @@
 package main
 
 import (
-	"github.com/num5/web"
+	"web"
 	"net/http"
 	"deep-space/DLL/webman"
+	"deep-space/utils/log"
+	"strconv"
 )
 
-var router = []*web.Route{
-	{
-		"add_item",
-		"GET",
-		"/item",
-		webman.NewItem,
-	},
+func Routes(r *web.Router) {
+	r.Get("/item/aa", webman.NewItem)
 }
 
-func Router() {
+
+func RunHttp(addr int) {
 	web.SetTrac(true)
 
-	r := web.Register(router)
+	r := web.New()
 
-	http.Handle("/", r)
+	Routes(r)
+
+	log.Tracf("Server start listen on %d", addr)
+	err := http.ListenAndServe(":" + strconv.Itoa(addr), r)
+
+	if err != nil {
+		panic(err)
+	}
 }

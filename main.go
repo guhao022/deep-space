@@ -3,13 +3,11 @@ package main
 import (
 	//"deep-space/utils/log"
 	"github.com/num5/env"
-	"net/http"
 )
 
 func main() {
 	initialize()
-	Router()
-	http.ListenAndServe(":9900", nil)
+	RunHttp(9900)
 
 	/*// 获取监听端口
 	addr := os.Getenv("LISTEN_ADDR")

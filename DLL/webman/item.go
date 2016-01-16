@@ -1,7 +1,7 @@
 package webman
 
 import (
-	"github.com/num5/web"
+	"web"
 	"deep-space/DAL/model"
 )
 
