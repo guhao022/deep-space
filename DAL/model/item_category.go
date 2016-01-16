@@ -5,7 +5,7 @@ import (
 )
 
 var (
-	c = Mgo.C("item_category")
+	itemCateC = Mgo.C("item_category")
 )
 
 // 新增物品分类
@@ -13,7 +13,7 @@ func (m *ItemCate) AddItemCate() error {
 	if !m.CheckName() {
 		return fmt.Errorf("item cate name 不能重复!")
 	}
-	return c.Insert(m)
+	return itemCateC.Insert(m)
 }
 
 // 检测分类名称
@@ -28,14 +28,14 @@ func (m *ItemCate) CheckName() bool {
 
 // 根据名称查询分类
 func (m *ItemCate) FindByName() error {
-	c.Query = bson.M{"name": m.Name}
-	return c.Find(&m)
+	itemCateC.Query = bson.M{"name": m.Name}
+	return itemCateC.Find(&m)
 }
 
 // 根据ID查询分类
 func (m *ItemCate) FindById() error {
-	c.Query = bson.M{"_id": m.Id}
-	return c.Find(&m)
+	itemCateC.Query = bson.M{"_id": m.Id}
+	return itemCateC.Find(&m)
 }
 
 // 查询所有物品信息
@@ -43,50 +43,47 @@ func (m *ItemCate) FindById() error {
 // @param sel select 返回指定字段，如{"name":1} 只返回name字段 {"name":0} 不返回name字段
 // @param limit 返回文档个数
 // @param skip 跳过文档个数
-func (m *ItemCate) FindAll(skip, limit int, sel interface{}, sort ...string) (v []*ItemCate, err error) {
+func (m *ItemCate) FindAll(skip, limit int, sort ...string) (v []*ItemCate, err error) {
 	if len(sort) > 0 {
-		c.Sort = sort
+		itemCateC.Sort = sort
 	}
 	if skip > 0 {
-		c.Skip = skip
+		itemCateC.Skip = skip
 	}
 	if limit > 0 {
-		c.Limit = limit
-	}
-	if sel != nil {
-		c.Select = bson.M(sel)
+		itemCateC.Limit = limit
 	}
 
-	err = c.FindAll(&v)
+	err = itemCateC.FindAll(&v)
 	return v, err
 }
 
 // 根据名称更新分类
 func (m *ItemCate) UpdateByName(name string) error {
-	c.Query = bson.M{"name": name}
-	c.Change = bson.M{"$set": m}
+	itemCateC.Query = bson.M{"name": name}
+	itemCateC.Change = bson.M{"$set": m}
 
-	return c.Update()
+	return itemCateC.Update()
 }
 
 // 根据ID更新分类
 func (m *ItemCate) UpdateById(id string) error {
-	c.Query = bson.M{"_id": bson.IsObjectIdHex(id)}
-	c.Change = bson.M{"$set": m}
+	itemCateC.Query = bson.M{"_id": bson.IsObjectIdHex(id)}
+	itemCateC.Change = bson.M{"$set": m}
 
-	return c.Update()
+	return itemCateC.Update()
 }
 
 // 根据名称删除分类
 func (m *ItemCate) DelByName(name string) error {
-	c.Query = bson.M{"name": name}
+	itemCateC.Query = bson.M{"name": name}
 
-	return c.Remove()
+	return itemCateC.Remove()
 }
 
 // 根据ID删除分类
 func (m *ItemCate) DelById(id string) error {
-	c.Query = bson.M{"_id": bson.ObjectIdHex(id)}
+	itemCateC.Query = bson.M{"_id": bson.ObjectIdHex(id)}
 
-	return c.Remove()
+	return itemCateC.Remove()
 }

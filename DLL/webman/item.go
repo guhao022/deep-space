@@ -9,6 +9,11 @@ var item *model.Item
 
 func NewItem(ctx *web.Context) {
 	name := ctx.GetString("name")
+	if name == "" {
+		ctx.Json("miss query param: name")
+		return
+	}
 
-	item.AddItem()
+	ctx.WriteString("aaaa")
+
 }

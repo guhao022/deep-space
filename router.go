@@ -2,16 +2,23 @@ package main
 
 import (
 	"github.com/num5/web"
-	//"deep-space/DLL/item"
 	"net/http"
+	"deep-space/DLL/webman"
 )
 
-func Router() {
-	var route *web.Route
-	var routes
-	router := web.Route{
+var router = []*web.Route{
+	{
+		"add_item",
+		"GET",
+		"/item/new",
+		webman.NewItem,
+	},
+}
 
-	}
+func Router() {
+	web.SetTrac(true)
+
+	r := web.Register(router)
 
 	http.Handle("/", r)
 }

@@ -5,7 +5,7 @@ import (
 )
 
 var (
-	c = Mgo.C("items")
+	itemC = Mgo.C("items")
 )
 
 // 新增物品
@@ -13,7 +13,7 @@ func (m *Item) AddItem() error {
 	if !m.CheckName() {
 		return fmt.Errorf("item name 不能重复!")
 	}
-	return c.Insert(m)
+	return itemC.Insert(m)
 }
 
 // 检查物品名称是否重复
@@ -28,20 +28,20 @@ func (m *Item) CheckName() bool {
 
 // 根据名称查询物品
 func (m *Item) FindByName() error {
-	c.Query = bson.M{"name": m.Name}
-	return c.Find(&m)
+	itemC.Query = bson.M{"name": m.Name}
+	return itemC.Find(&m)
 }
 
 // 根据ID查询物品
 func (m *Item) FindByID() error {
-	c.Query = bson.M{"_id": m.Id}
-	return c.Find(&m)
+	itemC.Query = bson.M{"_id": m.Id}
+	return itemC.Find(&m)
 }
 
 // 根据分类查询物品
 func (m *Item) FindByCID() error {
-	c.Query = bson.M{"cid": m.Cid}
-	return c.Find(&m)
+	itemC.Query = bson.M{"cid": m.Cid}
+	return itemC.Find(&m)
 }
 
 // 查询所有物品信息
@@ -51,48 +51,45 @@ func (m *Item) FindByCID() error {
 // @param skip 跳过文档个数
 func (m *Item) FindAll(skip, limit int, sel interface{}, sort ...string) (v []*Item, err error) {
 	if len(sort) > 0 {
-		c.Sort = sort
+		itemC.Sort = sort
 	}
 	if skip > 0 {
-		c.Skip = skip
+		itemC.Skip = skip
 	}
 	if limit > 0 {
-		c.Limit = limit
-	}
-	if sel != nil {
-		c.Select = bson.M(sel)
+		itemC.Limit = limit
 	}
 
-	err = c.FindAll(&v)
+	err = itemC.FindAll(&v)
 	return v, err
 }
 
 // 根据名称更改物品信息
 func (m *Item) UpdateByName(name string) error {
-	c.Query = bson.M{"name": name}
-	c.Change = bson.M{"$set": m}
+	itemC.Query = bson.M{"name": name}
+	itemC.Change = bson.M{"$set": m}
 
-	return c.Update()
+	return itemC.Update()
 }
 
 // 根据ID更改物品信息
 func (m *Item) UpdateById(id string) error {
-	c.Query = bson.M{"_id": bson.IsObjectIdHex(id)}
-	c.Change = bson.M{"$set": m}
+	itemC.Query = bson.M{"_id": bson.IsObjectIdHex(id)}
+	itemC.Change = bson.M{"$set": m}
 
-	return c.Update()
+	return itemC.Update()
 }
 
 // 根据名称删除物品
 func (m *Item) DelByName(name string) error {
-	c.Query = bson.M{"name": name}
+	itemC.Query = bson.M{"name": name}
 
-	return c.Remove()
+	return itemC.Remove()
 }
 
 // 根据ID删除数据
 func (m *Item) DelById(id string) error {
-	c.Query = bson.M{"_id": bson.ObjectIdHex(id)}
+	itemC.Query = bson.M{"_id": bson.ObjectIdHex(id)}
 
-	return c.Remove()
+	return itemC.Remove()
 }

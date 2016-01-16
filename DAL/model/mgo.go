@@ -14,3 +14,6 @@ var Mgo = &mgo.Exec{
 	Change: make(map[string]interface{}),
 }
 
+var C mgo.Mgo
+
+
