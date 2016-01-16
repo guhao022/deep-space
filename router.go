@@ -10,7 +10,7 @@ var router = []*web.Route{
 	{
 		"add_item",
 		"GET",
-		"/item/new",
+		"/item",
 		webman.NewItem,
 	},
 }
