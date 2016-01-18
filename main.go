@@ -38,4 +38,3 @@ func main() {
 func initialize() {
 	env.Load()
 }
-
