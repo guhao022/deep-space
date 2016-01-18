@@ -22,7 +22,7 @@ func RunHttp(addr int) {
 
 	Routes(r)
 
-	log.CLog("[TRAC] Server start listen on # %d # \n", addr)
+	log.CLog("[TRAC] Server start listen on # %d #\n", addr)
 	err := http.ListenAndServe(":"+strconv.Itoa(addr), r)
 
 	if err != nil {
