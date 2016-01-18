@@ -1,0 +1,5 @@
+package webman
+
+const (
+	BAD
+)
