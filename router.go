@@ -9,11 +9,7 @@ import (
 )
 
 func Routes(r *web.Router) {
-	r.Group("/item",
-		r.Get("/aa", webman.NewItem),
-		r.Get("/bb", webman.NewItem),
-	)
-	//r.Get("/aa", webman.NewItem).PathPrefix("/item").Subrouter()
+	r.Get("/item", webman.NewItem)
 
 }
 
