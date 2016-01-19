@@ -1,14 +1,13 @@
 package webman
 
 import (
-	"github.com/num5/web"
 	"deep-space/DAL/model"
 	"net/http"
 	"strconv"
 )
 
 func NewItem(w http.ResponseWriter, r *http.Request) {
-	var err error
+
 	name := r.FormValue("name")
 	if name == "" {
 		NewError(w, ErrMissParam("name"))
@@ -21,25 +20,23 @@ func NewItem(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	level := r.FormValue("level")
-	level, err = strconv.Atoi(level)
+	level, err := strconv.Atoi(r.FormValue("level"))
 	if err != nil || level == 0 {
 		NewError(w, ErrMissParam("level"))
 		return
 	}
 
-	price := r.FormValue("price")
-	price, err = strconv.Atoi(level)
+	price, err := strconv.Atoi(r.FormValue("price"))
 	if err != nil || price == 0 {
 		NewError(w, ErrMissParam("price"))
 		return
 	}
 
 	abstract := r.FormValue("abstract")
-	if abstract == "" {
+	/*if abstract == "" {
 		NewError(w, ErrMissParam("abstarct"))
 		return
-	}
+	}*/
 
 	var item *model.Item
 
@@ -56,5 +53,6 @@ func NewItem(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	Success(w, "New Item", item.Id)
+	Response(w, "New Item", item.Id)
+
 }

@@ -6,48 +6,50 @@ import (
 
 type Error struct {
 	Id     string `json:"id"`
-	Status int    `json:"_"`
 	Title  string `json:"title"`
 	Detail string `json:"detail"`
+
+	status int    `json:"_"`
 }
 
 func (err Error) Error() string {
 	return err.Detail
 }
 
-func NewError(w http.ResponseWriter, err Error) {
-	w.WriteHeader(err.Status)
+func NewError(w http.ResponseWriter, err *Error) {
+	w.WriteHeader(err.status)
 	w.Header().Set("content-type", "application/json; charset=utf-8")
 	json.NewEncoder(w).Encode(err)
 }
 
 
 var (
-	ErrBadRequest     = &Error{"bad_request", 400, "Bad request", "Request body is not well-formed. It must be JSON."}
-	ErrInternalServer = &Error{"internal_server_error", 500, "Internal Server Error", "Something went wrong."}
-	ErrNoData         = &Error{"no_data", 422, "No data", `Key "data" in the top level of the JSON document is missing or contains no data`}
-	ErrUnauthorized   = &Error{"unauthorized", 401, "Unauthorized", "Access token is invalid."}
-	ErrNotFound       = &Error{"not_found", 404, "Not found", "Route not found."}
+	ErrBadRequest     = &Error{"bad_request", "Bad request", "Request body is not well-formed. It must be JSON.", 400}
+	ErrInternalServer = &Error{"internal_server_error", "Internal Server Error", "Something went wrong.", 500}
+	ErrNoData         = &Error{"no_data", "No data", `Key "data" in the top level of the JSON document is missing or contains no data`, 422}
+	ErrUnauthorized   = &Error{"unauthorized", "Unauthorized", "Access token is invalid.", 401}
+	ErrNotFound       = &Error{"not_found", "Not found", "Route not found.", 404}
 )
 
 func ErrMissParam(param string) *Error {
 	return &Error{
 		"miss_param",
-		400,
 		"Miss Param",
 		"miss query param: " + param,
+		400,
 	}
 }
 
 type Success struct {
-	Status string      `json:"_"`
 	Title  string 	   `json:"title,omitempty"`
 	Data   interface{} `json:"data,omitempty"`
+
+	status int
 }
 
-func Success(w http.ResponseWriter, title string, data interface{}) {
-	success := &Success{200, title, data}
-	w.WriteHeader(success.Status)
+func Response(w http.ResponseWriter, title string, data interface{}) {
+	success := &Success{title, data, http.StatusOK}
+	w.WriteHeader(success.status)
 	w.Header().Set("content-type", "application/json; charset=utf-8")
 	json.NewEncoder(w).Encode(success)
 }
