@@ -5,7 +5,7 @@ import (
 )
 
 var (
-	itemCateC = Mgo.C("item_category")
+	itemCateC = NewMgo("item_category")
 )
 
 // 新增物品分类

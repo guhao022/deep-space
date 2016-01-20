@@ -26,12 +26,12 @@ func NewItemCate(w http.ResponseWriter, r *http.Request) {
 	item_cate.Pid = pid
 	item_cate.Abstract = abstract
 
-	err := item_cate.AddItemCate()
+	/*err := item_cate.AddItemCate()
 	if err != nil {
 		NewError(w, ErrInternalServer(err.Error()))
 		return
 	}
-
+*/
 	Response(w, "New Item", item_cate.Id)
 
 }

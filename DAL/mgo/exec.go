@@ -1,4 +1,5 @@
 package mgo
+import "sync"
 
 type Exec struct {
 	Database   	string                  // 数据库
@@ -13,15 +14,15 @@ type Exec struct {
 	Select     	interface{}            	// 返回指定字段，如{"name":1}
 
 	Change     map[string]interface{} 	// 文档更新内容
+
+	lock  		sync.RWMutex
 }
 
-func (e *Exec) C(collection string) *Exec {
-	e.Collection = collection
-	return e
-}
 
 // 写入
 func (e *Exec) Insert(docs ...interface{}) error {
+	e.lock.Lock()
+	defer e.lock.Unlock()
 	mgo, db := DB(e.Database, e.Username, e.Password)
 	defer mgo.Close()
 
@@ -32,6 +33,8 @@ func (e *Exec) Insert(docs ...interface{}) error {
 
 // 查询单个
 func (e *Exec) Find(v interface{}) error {
+	e.lock.Lock()
+	defer e.lock.Unlock()
 	mgo, db := DB(e.Database, e.Username, e.Password)
 	defer mgo.Close()
 
@@ -47,6 +50,8 @@ func (e *Exec) Find(v interface{}) error {
 
 // 查询所有
 func (e *Exec) FindAll(v interface{}) error {
+	e.lock.Lock()
+	defer e.lock.Unlock()
 	mgo, db := DB(e.Database, e.Username, e.Password)
 	defer mgo.Close()
 
@@ -72,6 +77,8 @@ func (e *Exec) FindAll(v interface{}) error {
 
 // 修改
 func (e *Exec) Update() error {
+	e.lock.Lock()
+	defer e.lock.Unlock()
 	mgo, db := DB(e.Database, e.Username, e.Password)
 	defer mgo.Close()
 
@@ -85,6 +92,8 @@ func (e *Exec) Update() error {
 
 // 删除
 func (e *Exec) Remove() error {
+	e.lock.Lock()
+	defer e.lock.Unlock()
 	mgo, db := DB(e.Database, e.Username, e.Password)
 	defer mgo.Close()
 

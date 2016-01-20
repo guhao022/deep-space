@@ -14,9 +14,9 @@ type Mgo struct {
 }
 
 func (*Mgo) New() pool.Entity {
-	session, err := mgo.Dial(os.Getenv("MGO_HOST"))
+	session, err := mgo.Dial(os.Getenv("MGO_REMOTE"))
 	if err != nil {
-		fmt.Printf("数据库连接失败: %s", err)
+		fmt.Printf("数据库连接失败: %s\n", err)
 	}
 
 	return &Mgo{Session: session}

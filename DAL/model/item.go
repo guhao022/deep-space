@@ -5,11 +5,12 @@ import (
 )
 
 var (
-	itemC = Mgo.C("items")
+	itemC = NewMgo("items")
 )
 
 // 新增物品
 func (m *Item) AddItem() error {
+	fmt.Println("name:"+itemC.Username)
 	if !m.CheckName() {
 		return fmt.Errorf("item name 不能重复!")
 	}

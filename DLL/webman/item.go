@@ -38,20 +38,22 @@ func NewItem(w http.ResponseWriter, r *http.Request) {
 		return
 	}*/
 
-	var item *model.Item
-
-	item.Name = name
-	item.Cid = cid
-	item.Level = level
-	item.Price = price
-	item.FallNum =  0
-	item.Abstract = abstract
+	item := &model.Item{
+		Name: name,
+		Cid: cid,
+		Level: level,
+		Price: price,
+		FallNum: 0,
+		Abstract: abstract,
+	}
 
 	err = item.AddItem()
 	if err != nil {
 		NewError(w, ErrInternalServer(err.Error()))
 		return
 	}
+
+	//w.Write([]byte(item.Name))
 
 	Response(w, "New Item", item.Id)
 

@@ -11,7 +11,7 @@ type Ts struct {
 }
 
 var e = &Exec{
-	Database: "tianshu",
+	Database: "deep-space",
 	Username: "root",
 	Password: "guhao19890412",
 
