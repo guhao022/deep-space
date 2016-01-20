@@ -49,7 +49,7 @@ func NewItem(w http.ResponseWriter, r *http.Request) {
 
 	err = item.AddItem()
 	if err != nil {
-		NewError(w, ErrInternalServer)
+		NewError(w, ErrInternalServer(err.Error()))
 		return
 	}
 

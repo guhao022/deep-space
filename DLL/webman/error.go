@@ -25,9 +25,7 @@ func NewError(w http.ResponseWriter, err *Error) {
 
 var (
 	ErrBadRequest     = &Error{"bad_request", "Bad request", "Request body is not well-formed. It must be JSON.", 400}
-	ErrInternalServer = &Error{"internal_server_error", "Internal Server Error", "Something went wrong.", 500}
 	ErrNoData         = &Error{"no_data", "No data", `Key "data" in the top level of the JSON document is missing or contains no data`, 422}
-	ErrUnauthorized   = &Error{"unauthorized", "Unauthorized", "Access token is invalid.", 401}
 	ErrNotFound       = &Error{"not_found", "Not found", "Route not found.", 404}
 )
 
@@ -36,7 +34,25 @@ func ErrMissParam(param string) *Error {
 		"miss_param",
 		"Miss Param",
 		"miss query param: " + param,
-		400,
+		http.StatusBadRequest,
+	}
+}
+
+func ErrInternalServer(detail string) *Error {
+	return &Error{
+		"internal_server_error",
+		"Internal Server Error",
+		detail,
+		http.StatusInternalServerError,
+	}
+}
+
+func ErrUnauthorized(detail string) *Error {
+	return &Error{
+		"unauthorized",
+		"Unauthorized",
+		detail,
+		http.StatusUnauthorized,
 	}
 }
 
