@@ -16,7 +16,8 @@ func Routes(r *web.Router) {
 
 	//item_cate
 	r.Post("/item/cate/new", webman.NewItemCate)
-	r.Get("/item/cate/list", webman.ItemCateList)
+	r.Post("/item/cate/del", webman.DelItemCate)
+	r.Post("/item/cate/list", webman.ItemCateList)
 
 }
 

@@ -24,24 +24,30 @@ func NewItemCate(w http.ResponseWriter, r *http.Request) {
 
 	abstract := r.FormValue("abstract")
 
-	item_cate := &model.ItemCate{
+	cate := &model.ItemCate{
 		Name: name,
 		Pid: ObjectIdHex(pid),
 		Abstract: strings.TrimSpace(abstract),
 	}
 
-	err := item_cate.AddItemCate()
+	err := cate.AddItemCate()
 	if err != nil {
 		NewError(w, ErrInternalServer(err.Error()))
 		return
 	}
-	Response(w, "new_item_cate", item_cate.Id)
+	Response(w, "new_item_cate", cate.Id)
 }
 
 func ItemCateList(w http.ResponseWriter, r *http.Request) {
-	var item model.ItemCate
+	/*name := r.FormValue("name")
+	if name == "" {
+		NewError(w, ErrMissParam("name"))
+		return
+	}*/
 
-	v, err := item.FindAll(0,0)
+	var cate model.ItemCate
+
+	v, err := cate.FindAll(0,0)
 	if err != nil {
 		NewError(w, ErrInternalServer(err.Error()))
 		return
@@ -50,3 +56,27 @@ func ItemCateList(w http.ResponseWriter, r *http.Request) {
 	Response(w, "findall_item_cate", v)
 
 }
+
+func DelItemCate(w http.ResponseWriter, r *http.Request) {
+	id := r.FormValue("id")
+	if id == "" {
+		NewError(w, ErrMissParam("id"))
+		return
+	}
+	if !IsObjectId(id) {
+		NewError(w, ErrForbidden("id must be ObjectId format"))
+	}
+
+	var cate model.ItemCate
+
+	err := cate.DelById(id)
+	if err != nil {
+		NewError(w, ErrInternalServer(err.Error()))
+		return
+	}
+
+	Response(w, "del_item_cate", "")
+
+}
+
+

@@ -9,7 +9,7 @@ type Error struct {
 	Title  string `json:"title"`
 	Detail string `json:"detail"`
 
-	status int    `json:"_"`
+	Status int    `json:"status"`
 }
 
 func (err Error) Error() string {
@@ -17,7 +17,7 @@ func (err Error) Error() string {
 }
 
 func NewError(w http.ResponseWriter, err *Error) {
-	w.WriteHeader(err.status)
+	w.WriteHeader(err.Status)
 	w.Header().Set("content-type", "application/json; charset=utf-8")
 	json.NewEncoder(w).Encode(err)
 }
@@ -69,12 +69,12 @@ type Success struct {
 	ID  string 	   `json:"title,omitempty"`
 	Data   interface{} `json:"data,omitempty"`
 
-	status int
+	Status int	`json:"status"`
 }
 
 func Response(w http.ResponseWriter, id string, data interface{}) {
 	success := &Success{id, data, http.StatusOK}
-	w.WriteHeader(success.status)
+	w.WriteHeader(success.Status)
 	w.Header().Set("content-type", "application/json; charset=utf-8")
 	json.NewEncoder(w).Encode(success)
 }

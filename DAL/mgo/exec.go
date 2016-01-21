@@ -1,7 +1,6 @@
 package mgo
 import (
 	"sync"
-	"reflect"
 )
 
 type Exec struct {
@@ -18,26 +17,7 @@ type Exec struct {
 
 	Change     map[string]interface{} 	// 文档更新内容
 
-	model 	   interface{}				// 正在使用mgo的模型
-
 	lock  		sync.RWMutex
-}
-
-func getTableName(model interface{}) string {
-	val := reflect.ValueOf(model)
-	ind := reflect.Indirect(val)
-	fun := val.MethodByName("TableName")
-	if fun.IsValid() {
-		vals := fun.Call([]reflect.Value{})
-		if len(vals) > 0 {
-			val := vals[0]
-			if val.Kind() == reflect.String {
-				return val.String()
-			}
-		}
-	}
-	//return SnakeString(ind.Type().Name())
-	return ind.Type().Name()
 }
 
 
@@ -45,8 +25,8 @@ func getTableName(model interface{}) string {
 func (e *Exec) Insert(docs ...interface{}) error {
 	e.lock.Lock()
 	defer e.lock.Unlock()
-	mgo, db := DB(e.Database, e.Username, e.Password)
-	defer mgo.Close()
+	s, db := DB(e.Database, e.Username, e.Password)
+	defer s.Close()
 
 	c := db.C(e.Collection)
 
@@ -57,8 +37,8 @@ func (e *Exec) Insert(docs ...interface{}) error {
 func (e *Exec) Find(v interface{}) error {
 	e.lock.Lock()
 	defer e.lock.Unlock()
-	mgo, db := DB(e.Database, e.Username, e.Password)
-	defer mgo.Close()
+	s, db := DB(e.Database, e.Username, e.Password)
+	defer s.Close()
 
 	c := db.C(e.Collection)
 
@@ -74,8 +54,8 @@ func (e *Exec) Find(v interface{}) error {
 func (e *Exec) FindAll(v interface{}) error {
 	e.lock.Lock()
 	defer e.lock.Unlock()
-	mgo, db := DB(e.Database, e.Username, e.Password)
-	defer mgo.Close()
+	s, db := DB(e.Database, e.Username, e.Password)
+	defer s.Close()
 
 	c := db.C(e.Collection)
 
@@ -101,8 +81,8 @@ func (e *Exec) FindAll(v interface{}) error {
 func (e *Exec) Update() error {
 	e.lock.Lock()
 	defer e.lock.Unlock()
-	mgo, db := DB(e.Database, e.Username, e.Password)
-	defer mgo.Close()
+	s, db := DB(e.Database, e.Username, e.Password)
+	defer s.Close()
 
 	c := db.C(e.Collection)
 
@@ -116,8 +96,8 @@ func (e *Exec) Update() error {
 func (e *Exec) Remove() error {
 	e.lock.Lock()
 	defer e.lock.Unlock()
-	mgo, db := DB(e.Database, e.Username, e.Password)
-	defer mgo.Close()
+	s, db := DB(e.Database, e.Username, e.Password)
+	defer s.Close()
 
 	c := db.C(e.Collection)
 

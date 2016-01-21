@@ -36,12 +36,39 @@ func (m *Mgo) Close() {
 
 func (m *Mgo) Clean(){}
 
-func Session() *mgo.Session {
+/*func Session() *mgo.Session {
 	m := mgoPool.Take().(*Mgo)
 	return m.Session.Clone()
+}*/
+
+func Session() *mgo.Session {
+	session, err := mgo.Dial(os.Getenv("MGO_REMOTE"))
+	if err != nil {
+		fmt.Printf("数据库连接失败: %s\n", err)
+	}
+	return session.Clone()
 }
 
-func DB(database, username, password string) (*Mgo, *mgo.Database) {
+func DB(database, username, password string) (*mgo.Session, *mgo.Database) {
+
+	session := Session()
+
+	db := session.DB(database)
+	if db == nil {
+		session.Close()
+		fmt.Println("数据库连接失败!")
+	}
+	err := db.Login(username, password)
+
+	if err != nil {
+		fmt.Printf("mongodb登陆失败: %s\n", err)
+	}
+
+	return session, db
+}
+
+
+/*func DB(database, username, password string) (*Mgo, *mgo.Database) {
 	m := mgoPool.Take().(*Mgo)
 	session := m.Session
 	db := session.DB(database)
@@ -57,4 +84,4 @@ func DB(database, username, password string) (*Mgo, *mgo.Database) {
 	}
 
 	return m, db
-}
+}*/
