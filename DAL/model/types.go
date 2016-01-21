@@ -46,7 +46,7 @@ type (
 	// 角色技能
 	Skill struct {
 		Id    bson.ObjectId `bson:"_id,omitempty" json:"id"`
-		Rid   bson.ObjectId `bson:"rid,omitempty" json:"rid"` // 角色ID
+		Uid   bson.ObjectId `bson:"uid,omitempty" json:"uid"` // 角色ID
 		Sid   bson.ObjectId `bson:"sid,omitempty" json:"sid"` // 技能ID
 		Level int           `bson:"level" json:"level"`       // 技能等级
 		Sort  int           `bson:"sort" json:"sort"` 				// 排序
