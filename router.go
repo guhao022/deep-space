@@ -12,6 +12,7 @@ import (
 func Routes(r *web.Router) {
 	// item
 	r.Get("/item/new", webman.NewItem)
+	r.Get("/item/findbyname", webman.FindItemByName)
 
 }
 
@@ -23,7 +24,7 @@ func RunHttp(addr int) {
 	Routes(r)
 
 	log.CLog("[TRAC] Server start listen on # %d #\n", addr)
-	err := http.ListenAndServe(":"+strconv.Itoa(addr), r)
+	err := http.ListenAndServeTLS(":"+strconv.Itoa(addr), r)
 
 	if err != nil {
 		panic(err)

@@ -17,13 +17,16 @@ func NewItemCate(w http.ResponseWriter, r *http.Request) {
 		NewError(w, ErrMissParam("pid"))
 		return
 	}
+	if !IsObjectId(pid) {
+		NewError(w, ErrForbidden("cid must be ObjectId format"))
+	}
 
 	abstract := r.FormValue("abstract")
 
-	var item_cate *model.ItemCate
+	var item_cate model.ItemCate
 
 	item_cate.Name = name
-	item_cate.Pid = pid
+	item_cate.Pid = ObjectIdHex(pid)
 	item_cate.Abstract = abstract
 
 	/*err := item_cate.AddItemCate()

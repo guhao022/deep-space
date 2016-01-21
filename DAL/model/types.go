@@ -34,7 +34,7 @@ type (
 	// 角色五行属性
 	Element struct {
 		Id    bson.ObjectId `bson:"_id,omitempty" json:"id"`
-		Uid   string `bson:"pid,omitempty" json:"pid"` // 角色ID
+		UPid  bson.ObjectId `bson:"upid,omitempty" json:"upid"` // 角色ID
 		Metal int           `bson:"metal" json:"metal"`       // 金
 		Wood  int           `bson:"wood" json:"wood"`         // 木
 		Water int           `bson:"water" json:"water"`       // 水
@@ -46,8 +46,8 @@ type (
 	// 角色技能
 	Skill struct {
 		Id    bson.ObjectId `bson:"_id,omitempty" json:"id"`
-		Rid   string `bson:"rid,omitempty" json:"rid"` // 角色ID
-		Sid   string `bson:"sid,omitempty" json:"sid"` // 技能ID
+		Rid   bson.ObjectId `bson:"rid,omitempty" json:"rid"` // 角色ID
+		Sid   bson.ObjectId `bson:"sid,omitempty" json:"sid"` // 技能ID
 		Level int           `bson:"level" json:"level"`       // 技能等级
 		Sort  int           `bson:"sort" json:"sort"` 				// 排序
 	}
@@ -58,7 +58,7 @@ type (
 	// 物品
 	Item struct {
 		Id       bson.ObjectId `bson:"_id,omitempty" json:"id"`
-		Cid      string `bson:"cid,omitempty" json:"cid"`   // 类型ID
+		Cid      bson.ObjectId `bson:"cid,omitempty" json:"cid"`   // 类型ID
 		Name     string        `bson:"name,omitempty" json:"name"` // 物品名称
 		Level	 int           `bson:"level" json:"level"`		   // 物品等级
 		Function string        `bson:"function" json:"function"`   // 物品功能
@@ -70,7 +70,7 @@ type (
 	// 类型
 	ItemCate struct {
 		Id    bson.ObjectId `bson:"_id,omitempty" json:"id"`
-		Pid   string `bson:"pid,omitempty" json:"pid"`				// 父ID
+		Pid   bson.ObjectId `bson:"pid,omitempty" json:"pid"`				// 父ID
 		Name  string        `bson:"name,omitempty" json:"name"`
 		Sort  int           `bson:"sort" json:"sort"` 				// 排序
 		Abstract string     `bson:"abstract" json:"abstract"`   	// 简介

@@ -19,6 +19,9 @@ func NewItem(w http.ResponseWriter, r *http.Request) {
 		NewError(w, ErrMissParam("cid"))
 		return
 	}
+	if !IsObjectId(cid) {
+		NewError(w, ErrForbidden("cid must be ObjectId format"))
+	}
 
 	level, err := strconv.Atoi(r.FormValue("level"))
 	if err != nil || level == 0 {
@@ -38,14 +41,14 @@ func NewItem(w http.ResponseWriter, r *http.Request) {
 		return
 	}*/
 
-	item := &model.Item{
-		Name: name,
-		Cid: cid,
-		Level: level,
-		Price: price,
-		FallNum: 0,
-		Abstract: abstract,
-	}
+	var item = &model.Item{}
+
+	item.Name = name
+	item.Cid = ObjectIdHex(cid)
+	item.Level = level
+	item.Price = price
+	item.FallNum =  0
+	item.Abstract = abstract
 
 	err = item.AddItem()
 	if err != nil {
@@ -53,8 +56,22 @@ func NewItem(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//w.Write([]byte(item.Name))
+	Response(w, "new_item", item.Id)
 
-	Response(w, "New Item", item.Id)
+}
+
+func FindItemByName(w http.ResponseWriter, r *http.Request) {
+	name := r.FormValue("name")
+	if name == "" {
+		NewError(w, ErrMissParam("name"))
+		return
+	}
+
+	var item model.Item
+	item.Name = name
+
+	item.FindByName()
+
+	Response(w, "find_item_by_name", item)
 
 }

@@ -16,7 +16,7 @@ func (m *Item) AddItem() error {
 	if !m.CheckName() {
 		return fmt.Errorf("item name 不能重复!")
 	}
-	return c.Insert(m)
+	return c.Insert(&m)
 }
 
 // 检查物品名称是否重复

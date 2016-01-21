@@ -38,6 +38,15 @@ func ErrMissParam(param string) *Error {
 	}
 }
 
+func ErrForbidden(detail string) *Error {
+	return &Error{
+		"forbidden",
+		"Forbidden",
+		"Forbidden: " + detail,
+		http.StatusForbidden,
+	}
+}
+
 func ErrInternalServer(detail string) *Error {
 	return &Error{
 		"internal_server_error",
@@ -57,15 +66,16 @@ func ErrUnauthorized(detail string) *Error {
 }
 
 type Success struct {
-	Title  string 	   `json:"title,omitempty"`
+	ID  string 	   `json:"title,omitempty"`
 	Data   interface{} `json:"data,omitempty"`
 
 	status int
 }
 
-func Response(w http.ResponseWriter, title string, data interface{}) {
-	success := &Success{title, data, http.StatusOK}
+func Response(w http.ResponseWriter, id string, data interface{}) {
+	success := &Success{id, data, http.StatusOK}
 	w.WriteHeader(success.status)
 	w.Header().Set("content-type", "application/json; charset=utf-8")
 	json.NewEncoder(w).Encode(success)
 }
+
