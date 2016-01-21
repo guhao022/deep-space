@@ -6,6 +6,7 @@ import (
 	"strconv"
 )
 
+// 新建
 func NewItem(w http.ResponseWriter, r *http.Request) {
 
 	name := r.FormValue("name")
@@ -60,6 +61,7 @@ func NewItem(w http.ResponseWriter, r *http.Request) {
 
 }
 
+// 根据名称查找
 func FindItemByName(w http.ResponseWriter, r *http.Request) {
 	name := r.FormValue("name")
 	if name == "" {

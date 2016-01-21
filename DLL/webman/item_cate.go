@@ -5,6 +5,7 @@ import (
 	"strings"
 )
 
+// @name 新建
 func NewItemCate(w http.ResponseWriter, r *http.Request) {
 
 	name := r.FormValue("name")
@@ -38,6 +39,7 @@ func NewItemCate(w http.ResponseWriter, r *http.Request) {
 	Response(w, "new_item_cate", cate.Id)
 }
 
+// @name 物品分类列表
 func ItemCateList(w http.ResponseWriter, r *http.Request) {
 	/*name := r.FormValue("name")
 	if name == "" {
@@ -57,6 +59,7 @@ func ItemCateList(w http.ResponseWriter, r *http.Request) {
 
 }
 
+// @name 删除分类
 func DelItemCate(w http.ResponseWriter, r *http.Request) {
 	id := r.FormValue("id")
 	if id == "" {
