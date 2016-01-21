@@ -4,5 +4,6 @@
 
 *.exe
 .DS_Store
+.env
 bw
 deep-space

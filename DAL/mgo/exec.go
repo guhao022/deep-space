@@ -1,5 +1,8 @@
 package mgo
-import "sync"
+import (
+	"sync"
+	"reflect"
+)
 
 type Exec struct {
 	Database   	string                  // 数据库
@@ -15,7 +18,26 @@ type Exec struct {
 
 	Change     map[string]interface{} 	// 文档更新内容
 
+	model 	   interface{}				// 正在使用mgo的模型
+
 	lock  		sync.RWMutex
+}
+
+func getTableName(model interface{}) string {
+	val := reflect.ValueOf(model)
+	ind := reflect.Indirect(val)
+	fun := val.MethodByName("TableName")
+	if fun.IsValid() {
+		vals := fun.Call([]reflect.Value{})
+		if len(vals) > 0 {
+			val := vals[0]
+			if val.Kind() == reflect.String {
+				return val.String()
+			}
+		}
+	}
+	//return SnakeString(ind.Type().Name())
+	return ind.Type().Name()
 }
 
 

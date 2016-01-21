@@ -5,20 +5,24 @@ import (
 	"os"
 )
 
+type Mgo struct {
+	*mgo.Exec
+}
 
-func NewMgo(collection string) *mgo.Exec {
+func NewMgo(collection string) *Mgo {
 	username := os.Getenv("MGO_USERNAME")
 	password := os.Getenv("MGO_PASSWORD")
-	println("dbname:"+username)
-	return &mgo.Exec{
-		Database: "deep-space",
-		Username: username,
-		Password: password,
+	return &Mgo{
+		&mgo.Exec{
+			Database: "deep-space",
+			Username: username,
+			Password: password,
 
-		Collection: collection,
+			Collection: collection,
 
-		Query: make(map[string]interface{}),
-		Change: make(map[string]interface{}),
+			Query: make(map[string]interface{}),
+			Change: make(map[string]interface{}),
+		},
 	}
 }
 
