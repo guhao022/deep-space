@@ -2,6 +2,7 @@ package webman
 import (
 	"net/http"
 	"deep-space/DAL/model"
+	"strings"
 )
 
 func NewItemCate(w http.ResponseWriter, r *http.Request) {
@@ -23,18 +24,29 @@ func NewItemCate(w http.ResponseWriter, r *http.Request) {
 
 	abstract := r.FormValue("abstract")
 
-	var item_cate model.ItemCate
+	item_cate := &model.ItemCate{
+		Name: name,
+		Pid: ObjectIdHex(pid),
+		Abstract: strings.TrimSpace(abstract),
+	}
 
-	item_cate.Name = name
-	item_cate.Pid = ObjectIdHex(pid)
-	item_cate.Abstract = abstract
-
-	/*err := item_cate.AddItemCate()
+	err := item_cate.AddItemCate()
 	if err != nil {
 		NewError(w, ErrInternalServer(err.Error()))
 		return
 	}
-*/
-	Response(w, "New Item", item_cate.Id)
+	Response(w, "new_item_cate", item_cate.Id)
+}
+
+func ItemCateList(w http.ResponseWriter, r *http.Request) {
+	var item model.ItemCate
+
+	v, err := item.FindAll(0,0)
+	if err != nil {
+		NewError(w, ErrInternalServer(err.Error()))
+		return
+	}
+
+	Response(w, "findall_item_cate", v)
 
 }
