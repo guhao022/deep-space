@@ -44,12 +44,21 @@ type (
 	}
 
 	// 角色技能
-	Skill struct {
+	PSkill struct {
 		Id    bson.ObjectId `bson:"_id,omitempty" json:"id"`
 		Uid   bson.ObjectId `bson:"uid,omitempty" json:"uid"` // 角色ID
 		Sid   bson.ObjectId `bson:"sid,omitempty" json:"sid"` // 技能ID
 		Level int           `bson:"level" json:"level"`       // 技能等级
 		Sort  int           `bson:"sort" json:"sort"` 				// 排序
+	}
+)
+
+/***************************************** 技能 *********************************/
+type (
+	Skill struct {
+		Id    bson.ObjectId `bson:"_id,omitempty" json:"id"`
+		Type
+		UnlockLevel int     `bson:"unlock_level" json:"unlock_level"`      // 技能等级
 	}
 )
 
