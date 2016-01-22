@@ -57,7 +57,7 @@ type (
 type (
 	Skill struct {
 		Id    bson.ObjectId `bson:"_id,omitempty" json:"id"`
-		Type
+
 		UnlockLevel int     `bson:"unlock_level" json:"unlock_level"`      // 技能等级
 	}
 )
@@ -73,16 +73,16 @@ type (
 		Function string        `bson:"function" json:"function"`   // 物品功能
 		Price    int           `bson:"price" json:"price"`         // 物品基本卖价
 		FallNum  int64         `bson:"fall_num" json:"fall_num"`   // 掉落次数
-		Abstract string        `bson:"abstract" json:"abstract"`   // 物品简介
+		Summary string     `bson:"summary" json:"summary"`   // 物品简介
 	}
 
 	// 类型
 	ItemCate struct {
 		Id    bson.ObjectId `bson:"_id,omitempty" json:"id"`
-		Pid   bson.ObjectId `bson:"pid,omitempty" json:"pid"`				// 父ID
+		Pid   string  `bson:"pid,omitempty" json:"pid"`				// 父ID
 		Name  string        `bson:"name,omitempty" json:"name"`
 		Sort  int           `bson:"sort" json:"sort"` 				// 排序
-		Abstract string     `bson:"abstract" json:"abstract"`   	// 简介
+		Summary string     `bson:"summary" json:"summary"`   	// 简介
 	}
 )
 

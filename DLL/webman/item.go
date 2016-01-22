@@ -36,11 +36,7 @@ func NewItem(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	abstract := r.FormValue("abstract")
-	/*if abstract == "" {
-		NewError(w, ErrMissParam("abstarct"))
-		return
-	}*/
+	summary := r.FormValue("summary")
 
 	var item = &model.Item{}
 
@@ -49,7 +45,7 @@ func NewItem(w http.ResponseWriter, r *http.Request) {
 	item.Level = level
 	item.Price = price
 	item.FallNum =  0
-	item.Abstract = abstract
+	item.Summary = summary
 
 	err = item.AddItem()
 	if err != nil {
@@ -57,7 +53,7 @@ func NewItem(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	Response(w, "new_item", item.Id)
+	Response(w, "new_item", "")
 
 }
 

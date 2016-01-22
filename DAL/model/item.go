@@ -12,21 +12,20 @@ func (m *Item) mgo() *Mgo {
 // 新增物品
 func (m *Item) AddItem() error {
 	c := m.mgo()
-	fmt.Println("c:"+c.Collection)
-	if !m.CheckName() {
+	if m.CheckName() {
 		return fmt.Errorf("item name 不能重复!")
 	}
-	return c.Insert(&m)
+	return c.Insert(m)
 }
 
 // 检查物品名称是否重复
 func (m *Item) CheckName() bool {
 	err := m.FindByName()
 	if err != nil {
-		return true
+		return false
 	}
 
-	return false
+	return true
 }
 
 // 根据名称查询物品

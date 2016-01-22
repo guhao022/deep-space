@@ -19,16 +19,16 @@ func NewItemCate(w http.ResponseWriter, r *http.Request) {
 		NewError(w, ErrMissParam("pid"))
 		return
 	}
-	if !IsObjectId(pid) {
-		NewError(w, ErrForbidden("cid must be ObjectId format"))
+	if pid != "0" && !IsObjectId(pid) {
+		NewError(w, ErrForbidden("cid must be 0 or ObjectId format"))
 	}
 
-	abstract := r.FormValue("abstract")
+	summary := r.FormValue("summary")
 
 	cate := &model.ItemCate{
 		Name: name,
-		Pid: ObjectIdHex(pid),
-		Abstract: strings.TrimSpace(abstract),
+		Pid: pid,
+		Summary: strings.TrimSpace(summary),
 	}
 
 	err := cate.AddItemCate()
@@ -36,16 +36,26 @@ func NewItemCate(w http.ResponseWriter, r *http.Request) {
 		NewError(w, ErrInternalServer(err.Error()))
 		return
 	}
-	Response(w, "new_item_cate", cate.Id)
+	Response(w, "new_item_cate", "")
+}
+
+func CheckCateName(w http.ResponseWriter, r *http.Request) {
+	name := r.FormValue("name")
+	if name == "" {
+		NewError(w, ErrMissParam("name"))
+		return
+	}
+
+	var cate model.ItemCate
+
+	cate.Name = name
+
+	Response(w, "check_item_cate_name", cate.CheckName())
+
 }
 
 // @name 物品分类列表
 func ItemCateList(w http.ResponseWriter, r *http.Request) {
-	/*name := r.FormValue("name")
-	if name == "" {
-		NewError(w, ErrMissParam("name"))
-		return
-	}*/
 
 	var cate model.ItemCate
 

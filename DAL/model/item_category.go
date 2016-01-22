@@ -7,26 +7,27 @@ import (
 
 
 func (m *ItemCate) mgo() *Mgo {
-	return NewMgo("items")
+	return NewMgo("item_cate")
 }
 
 // 新增物品分类
 func (m *ItemCate) AddItemCate() error {
 	c := m.mgo()
-	if !m.CheckName() {
+	// 如果名称重复
+	if m.CheckName() {
 		return fmt.Errorf("item cate name 不能重复!")
 	}
 	return c.Insert(m)
 }
 
-// 检测分类名称
+// 检测分类名称是否重复
 func (m *ItemCate) CheckName() bool {
 	err := m.FindByName()
 	if err != nil {
-		return true
+		return false
 	}
 
-	return false
+	return true
 }
 
 // 根据名称查询分类
