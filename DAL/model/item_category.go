@@ -1,10 +1,9 @@
 package model
 
 import (
-	"gopkg.in/mgo.v2/bson"
 	"fmt"
+	"gopkg.in/mgo.v2/bson"
 )
-
 
 func (m *ItemCate) mgo() *Mgo {
 	return NewMgo("item_cate")

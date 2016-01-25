@@ -20,13 +20,8 @@ func NewMgo(collection string) *Mgo {
 
 			Collection: collection,
 
-			Query: make(map[string]interface{}),
+			Query:  make(map[string]interface{}),
 			Change: make(map[string]interface{}),
 		},
 	}
 }
-
-
-
-
-
